@@ -50,6 +50,10 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         const token = generateToken(user.id, user.role);
         res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
     } catch (error) {
+        if (error instanceof z.ZodError) {
+            res.status(400).json({ error: error.errors[0].message });
+            return;
+        }
         res.status(400).json({ error: 'Invalid request' });
     }
 };
