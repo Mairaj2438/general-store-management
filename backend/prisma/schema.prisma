@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite does not support Enums, using String instead
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         String   @default("STAFF") // "ADMIN" | "STAFF"
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Product {
+  id             String    @id @default(uuid())
+  name           String
+  category       String
+  barcode        String?   @unique
+  purchasePrice  Float
+  retailPrice    Float
+  wholesalePrice Float
+  quantity       Int
+  expiryDate     DateTime?
+  batchNumber    String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  sales          SaleItem[]
+}
+
+// A Sale can contain multiple items (SaleItem). 
+// But requirements say "Sales Screen" -> usually one transaction has multiple items.
+// Simplification: A Sale (Transaction) has many SaleItems.
+
+model Sale {
+  id          String     @id @default(uuid())
+  totalAmount Float
+  saleType    String     // "RETAIL" | "WHOLESALE"
+  date        DateTime   @default(now())
+  
+  customerId  String?
+  customer    Customer?  @relation(fields: [customerId], references: [id])
+  
+  items       SaleItem[]
+}
+
+model SaleItem {
+  id           String   @id @default(uuid())
+  saleId       String
+  sale         Sale     @relation(fields: [saleId], references: [id])
+  
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id])
+  
+  quantity     Int
+  sellingPrice Float    // Price at moment of sale
+  profit       Float    // Calculated profit for this item
+  total        Float    // quantity * sellingPrice
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  name      String
+  shopName  String?
+  phone     String   @unique
+  balance   Float    @default(0.0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  sales     Sale[]
+  payments  Payment[]
+}
+
+model Payment {
+  id          String   @id @default(uuid())
+  amount      Float
+  date        DateTime @default(now())
+  customerId  String
+  customer    Customer @relation(fields: [customerId], references: [id])
+  notes       String?
+}
