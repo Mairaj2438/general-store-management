@@ -51,7 +51,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
     } catch (error) {
         if (error instanceof z.ZodError) {
-            res.status(400).json({ error: error.errors[0].message });
+            res.status(400).json({ error: error.issues[0]?.message || 'Validation error' });
             return;
         }
         res.status(400).json({ error: 'Invalid request' });

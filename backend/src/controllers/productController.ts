@@ -9,7 +9,7 @@ const productSchema = z.object({
     purchasePrice: z.number().min(0),
     retailPrice: z.number().min(0),
     wholesalePrice: z.number().min(0),
-    quantity: z.number().int().min(0),
+    quantity: z.number().min(0),
     expiryDate: z.string().optional().transform((str) => str ? new Date(str) : null), // Accept ISO string
     batchNumber: z.string().optional(),
 });

@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 const saleItemSchema = z.object({
     productId: z.string(),
-    quantity: z.number().int().positive(),
+    quantity: z.number().positive(),
 });
 
 const saleSchema = z.object({

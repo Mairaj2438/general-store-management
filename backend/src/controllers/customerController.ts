@@ -7,6 +7,7 @@ const customerSchema = z.object({
     shopName: z.string().optional(),
     phone: z.string().min(10), // Basic validation
     balance: z.number().default(0),
+    category: z.string().default('REGULAR'),
 });
 
 export const createCustomer = async (req: Request, res: Response): Promise<void> => {
@@ -31,10 +32,10 @@ export const getCustomers = async (req: Request, res: Response) => {
 export const updateCustomer = async (req: Request, res: Response) => {
     try {
         const { id } = req.params as { id: string };
-        const { name, shopName, phone } = req.body;
+        const { name, shopName, phone, category } = req.body;
         const customer = await prisma.customer.update({
             where: { id },
-            data: { name, shopName, phone },
+            data: { name, shopName, phone, category },
         });
         res.json(customer);
     } catch (error) {
@@ -93,9 +94,14 @@ export const getCustomerLedger = async (req: Request, res: Response): Promise<vo
                 id: s.id,
                 date: s.date,
                 type: 'SALE',
-                description: `Sale (Items: ${s.items.length})`,
+                description: `Sale - Invoice #${s.id.slice(-6).toUpperCase()}`,
                 amount: s.totalAmount, // Debit (Increases Balance)
-                items: s.items.map((i: any) => `${i.product.name} x${i.quantity}`).join(', ')
+                items: s.items.map((i: any) => ({
+                    name: i.product.name,
+                    quantity: i.quantity,
+                    price: i.sellingPrice,
+                    total: i.total
+                }))
             })),
             ...customer.payments.map((p: any) => ({
                 id: p.id,
@@ -103,12 +109,52 @@ export const getCustomerLedger = async (req: Request, res: Response): Promise<vo
                 type: 'PAYMENT',
                 description: 'Payment Received',
                 amount: p.amount, // Credit (Decreases Balance)
-                items: '-'
+                items: []
             }))
         ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
         res.json({ customer, ledger });
     } catch (error) {
         res.status(500).json({ error: 'Failed to fetch ledger' });
+    }
+};
+
+export const getSavedProducts = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params as { id: string };
+        const saved = await prisma.savedProduct.findMany({
+            where: { customerId: id },
+            include: { product: true }
+        });
+        res.json(saved);
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to fetch saved products' });
+    }
+};
+
+export const addSavedProduct = async (req: Request, res: Response) => {
+    try {
+        const { id } = req.params as { id: string };
+        const { productId, quantity } = z.object({
+            productId: z.string(),
+            quantity: z.number().positive().default(1)
+        }).parse(req.body);
+
+        const saved = await prisma.savedProduct.create({
+            data: { customerId: id, productId, quantity }
+        });
+        res.status(201).json(saved);
+    } catch (error) {
+        res.status(400).json({ error: 'Failed to save product' });
+    }
+};
+
+export const removeSavedProduct = async (req: Request, res: Response) => {
+    try {
+        const { savedId } = req.params as { savedId: string };
+        await prisma.savedProduct.delete({ where: { id: savedId } });
+        res.json({ message: 'Removed from saved products' });
+    } catch (error) {
+        res.status(400).json({ error: 'Failed to remove product' });
     }
 };

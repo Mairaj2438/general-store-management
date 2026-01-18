@@ -54,9 +54,9 @@ export default function DashboardPage() {
     if (!stats) return <div className="text-red-500">Failed to load data.</div>;
 
     const cards = [
-        { label: "Today's Sales", value: stats.todaySales, prefix: '$', icon: DollarSign, color: 'bg-indigo-500' },
-        { label: "Today's Profit", value: stats.todayProfit, prefix: '$', icon: DollarSign, color: 'bg-emerald-500' },
-        { label: 'Total Sales', value: stats.totalSalesRetail + stats.totalSalesWholesale, prefix: '$', icon: DollarSign, color: 'bg-blue-500' },
+        { label: "Today's Sales", value: stats.todaySales, prefix: 'Rs. ', icon: DollarSign, color: 'bg-indigo-500' },
+        { label: "Today's Profit", value: stats.todayProfit, prefix: 'Rs. ', icon: DollarSign, color: 'bg-emerald-500' },
+        { label: 'Total Sales', value: stats.totalSalesRetail + stats.totalSalesWholesale, prefix: 'Rs. ', icon: DollarSign, color: 'bg-blue-500' },
         { label: 'Low Stock Alerts', value: stats.lowStockProducts, icon: AlertTriangle, color: 'bg-orange-500' },
         { label: 'Expiring Soon', value: stats.expiringSoon, icon: Clock, color: 'bg-red-500' },
     ];

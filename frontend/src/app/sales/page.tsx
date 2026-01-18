@@ -24,6 +24,8 @@ interface Product {
 
 interface CartItem extends Product {
     cartQuantity: number;
+    sellByAmount?: boolean;
+    targetAmount?: number;
 }
 
 interface Customer {
@@ -117,6 +119,7 @@ export default function SalesPage() {
     };
 
     const grandTotal = cart.reduce((acc, item) => {
+        if (item.sellByAmount) return acc + (item.targetAmount || 0);
         const price = mode === 'WHOLESALE' ? item.wholesalePrice : item.retailPrice;
         return acc + (price * item.cartQuantity);
     }, 0);
@@ -135,7 +138,7 @@ export default function SalesPage() {
                 customerId: selectedCustomer || undefined,
                 items: cart.map(item => ({
                     productId: item.id,
-                    quantity: item.cartQuantity
+                    quantity: item.sellByAmount ? ((item.targetAmount || 0) / (mode === 'WHOLESALE' ? item.wholesalePrice : item.retailPrice)) : item.cartQuantity
                 }))
             };
 
@@ -186,7 +189,7 @@ export default function SalesPage() {
                         >
                             <option value="">-- Choose Customer --</option>
                             {customers.map(c => (
-                                <option key={c.id} value={c.id}>{c.name} (Balance: ${c.balance})</option>
+                                <option key={c.id} value={c.id}>{c.name} (Balance: Rs. {c.balance})</option>
                             ))}
                         </select>
                     </div>
@@ -216,7 +219,7 @@ export default function SalesPage() {
                                             <div className="text-xs text-gray-500">Stock: {product.quantity}</div>
                                         </div>
                                         <div className="font-mono font-medium text-emerald-600">
-                                            ${mode === 'WHOLESALE' ? product.wholesalePrice : product.retailPrice}
+                                            Rs. {mode === 'WHOLESALE' ? product.wholesalePrice : product.retailPrice}
                                         </div>
                                     </button>
                                 ))}
@@ -252,30 +255,63 @@ export default function SalesPage() {
                             <p>Cart is empty</p>
                         </div>
                     ) : (
-                        cart.map(item => {
+                        cart.map((item: any) => {
                             const price = mode === 'WHOLESALE' ? item.wholesalePrice : item.retailPrice;
                             return (
-                                <div key={item.id} className="flex justify-between items-start p-3 bg-gray-50 rounded-lg group">
-                                    <div className="flex-1">
-                                        <h4 className="font-medium text-gray-900 text-sm line-clamp-1">{item.name}</h4>
-                                        <p className="text-xs text-gray-500">Unit: ${price}</p>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <input
-                                            type="number"
-                                            value={item.cartQuantity}
-                                            onChange={(e) => updateQuantity(item.id, parseInt(e.target.value) || 0)}
-                                            className="w-16 p-1 text-center bg-white border border-gray-200 rounded-md text-sm outline-none focus:ring-1 focus:ring-emerald-500"
-                                        />
-                                        <div className="w-16 text-right font-medium text-gray-900 text-sm">
-                                            ${(price * item.cartQuantity).toFixed(2)}
+                                <div key={item.id} className="p-4 bg-gray-50 rounded-xl border border-gray-100 group">
+                                    <div className="flex justify-between items-start mb-3">
+                                        <div className="flex-1">
+                                            <h4 className="font-bold text-gray-900 line-clamp-1">{item.name}</h4>
+                                            <p className="text-xs text-gray-500">Rate: Rs. {price}</p>
                                         </div>
                                         <button
                                             onClick={() => removeFromCart(item.id)}
-                                            className="text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
+                                            className="text-gray-400 hover:text-red-500 transition-colors"
                                         >
                                             <Trash2 size={16} />
                                         </button>
+                                    </div>
+
+                                    <div className="flex flex-col gap-2">
+                                        <div className="flex items-center justify-between">
+                                            <button
+                                                onClick={() => setCart((prev: any) => prev.map((p: any) => p.id === item.id ? { ...p, sellByAmount: !p.sellByAmount, targetAmount: price } : p))}
+                                                className={`text-[10px] px-2 py-0.5 rounded-full font-bold transition-colors ${item.sellByAmount ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}
+                                            >
+                                                {item.sellByAmount ? 'FIXED AMOUNT' : 'BY QUANTITY'}
+                                            </button>
+                                            <div className="text-right">
+                                                <p className="text-xs text-gray-400 uppercase font-black text-[10px]">Total</p>
+                                                <p className="font-bold text-gray-900">
+                                                    Rs. {item.sellByAmount ? (item.targetAmount || 0).toFixed(2) : (price * item.cartQuantity).toFixed(2)}
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {item.sellByAmount ? (
+                                            <div className="relative">
+                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400">Rs.</span>
+                                                <input
+                                                    type="number"
+                                                    value={item.targetAmount}
+                                                    onChange={(e) => setCart((prev: any) => prev.map((p: any) => p.id === item.id ? { ...p, targetAmount: parseFloat(e.target.value) || 0 } : p))}
+                                                    className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                                                    placeholder="Enter Rupees amount"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center gap-2">
+                                                <button onClick={() => updateQuantity(item.id, item.cartQuantity - 0.5)} className="w-10 h-10 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 flex items-center justify-center font-bold">-</button>
+                                                <input
+                                                    type="number"
+                                                    step="0.01"
+                                                    value={item.cartQuantity}
+                                                    onChange={(e) => updateQuantity(item.id, parseFloat(e.target.value) || 0)}
+                                                    className="flex-1 h-10 text-center bg-white border border-gray-200 rounded-lg text-sm font-bold outline-none"
+                                                />
+                                                <button onClick={() => updateQuantity(item.id, item.cartQuantity + 0.5)} className="w-10 h-10 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 flex items-center justify-center font-bold">+</button>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             );
@@ -286,11 +322,11 @@ export default function SalesPage() {
                 <div className="p-6 bg-gray-50 border-t border-gray-100">
                     <div className="flex justify-between items-center mb-4">
                         <span className="text-gray-600">Subtotal</span>
-                        <span className="font-medium text-gray-900">${grandTotal.toFixed(2)}</span>
+                        <span className="font-medium text-gray-900">Rs. {grandTotal.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between items-center mb-6">
                         <span className="text-lg font-bold text-gray-900">Total</span>
-                        <span className="text-2xl font-bold text-emerald-600">${grandTotal.toFixed(2)}</span>
+                        <span className="text-2xl font-bold text-emerald-600">Rs. {grandTotal.toFixed(2)}</span>
                     </div>
 
                     <button

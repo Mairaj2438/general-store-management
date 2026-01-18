@@ -123,8 +123,8 @@ export default function ProductsPage() {
                                                 </span>
                                             </td>
                                             <td className="p-4 text-sm text-gray-600">
-                                                <div>Retail: <span className="font-semibold">${product.retailPrice}</span></div>
-                                                <div className="text-xs text-gray-400">Wholesale: ${product.wholesalePrice}</div>
+                                                <div>Retail: <span className="font-semibold">Rs. {product.retailPrice}</span></div>
+                                                <div className="text-xs text-gray-400">Wholesale: Rs. {product.wholesalePrice}</div>
                                             </td>
                                             <td className="p-4">
                                                 <div className={cn("font-medium", product.quantity <= 10 ? "text-orange-600" : "text-gray-700")}>

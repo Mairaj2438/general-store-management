@@ -64,11 +64,18 @@ export function Sidebar() {
             <div className="p-4 border-t border-slate-800">
                 <button
                     onClick={logout}
-                    className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-sm font-medium text-red-400 hover:bg-slate-800 hover:text-red-300 transition-colors"
+                    className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-sm font-medium text-red-400 hover:bg-slate-800 hover:text-red-300 transition-colors mb-4"
                 >
                     <LogOut size={20} />
                     Sign Out
                 </button>
+                <div className="flex flex-col items-center justify-center opacity-30 group hover:opacity-100 transition-opacity pt-2">
+                    <p className="text-[10px] text-slate-500 font-bold tracking-[0.2em] uppercase mb-1">Developed by</p>
+                    <div className="flex items-center gap-1.5 grayscale group-hover:grayscale-0 transition-all">
+                        <div className="w-5 h-5 bg-gradient-to-tr from-emerald-500 to-cyan-500 rounded flex items-center justify-center text-[10px] font-black italic text-white shadow-sm">M</div>
+                        <span className="text-[11px] font-black tracking-tighter text-slate-300">MAIRAJ'S <span className="text-emerald-500">TECH</span></span>
+                    </div>
+                </div>
             </div>
         </aside>
     );

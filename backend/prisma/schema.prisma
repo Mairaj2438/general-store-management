@@ -30,12 +30,13 @@ model Product {
   purchasePrice  Float
   retailPrice    Float
   wholesalePrice Float
-  quantity       Int
+  quantity       Float
   expiryDate     DateTime?
   batchNumber    String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   sales          SaleItem[]
+  savedProducts  SavedProduct[]
 }
 
 // A Sale can contain multiple items (SaleItem). 
@@ -62,7 +63,7 @@ model SaleItem {
   productId    String
   product      Product  @relation(fields: [productId], references: [id])
   
-  quantity     Int
+  quantity     Float
   sellingPrice Float    // Price at moment of sale
   profit       Float    // Calculated profit for this item
   total        Float    // quantity * sellingPrice
@@ -73,11 +74,13 @@ model Customer {
   name      String
   shopName  String?
   phone     String   @unique
+  category  String   @default("REGULAR") // REGULAR, VIP, WHOLESALE
   balance   Float    @default(0.0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   sales     Sale[]
-  payments  Payment[]
+  payments       Payment[]
+  savedProducts  SavedProduct[]
 }
 
 model Payment {
@@ -87,4 +90,14 @@ model Payment {
   customerId  String
   customer    Customer @relation(fields: [customerId], references: [id])
   notes       String?
+}
+
+model SavedProduct {
+  id         String   @id @default(uuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id])
+  quantity   Float    @default(1.0)
+  createdAt  DateTime @default(now())
 }

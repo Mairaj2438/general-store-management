@@ -136,17 +136,20 @@ export function ProductForm({ initialData, onClose, onSuccess }: ProductFormProp
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Purchase Price</label>
-                            <input
-                                type="number"
-                                name="purchasePrice"
-                                value={formData.purchasePrice}
-                                onChange={handleChange}
-                                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
-                                min="0"
-                                step="0.01"
-                                required
-                            />
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Purchase Price (Rs.)</label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">Rs.</span>
+                                <input
+                                    type="number"
+                                    name="purchasePrice"
+                                    value={formData.purchasePrice}
+                                    onChange={handleChange}
+                                    className="w-full pl-10 pr-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+                                    min="0"
+                                    step="0.01"
+                                    required
+                                />
+                            </div>
                         </div>
 
                         <div>
@@ -158,36 +161,43 @@ export function ProductForm({ initialData, onClose, onSuccess }: ProductFormProp
                                 onChange={handleChange}
                                 className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
                                 min="0"
+                                step="0.001"
                                 required
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Retail Price</label>
-                            <input
-                                type="number"
-                                name="retailPrice"
-                                value={formData.retailPrice}
-                                onChange={handleChange}
-                                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
-                                min="0"
-                                step="0.01"
-                                required
-                            />
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Retail Price (Rs.)</label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">Rs.</span>
+                                <input
+                                    type="number"
+                                    name="retailPrice"
+                                    value={formData.retailPrice}
+                                    onChange={handleChange}
+                                    className="w-full pl-10 pr-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+                                    min="0"
+                                    step="0.01"
+                                    required
+                                />
+                            </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Wholesale Price</label>
-                            <input
-                                type="number"
-                                name="wholesalePrice"
-                                value={formData.wholesalePrice}
-                                onChange={handleChange}
-                                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
-                                min="0"
-                                step="0.01"
-                                required
-                            />
+                            <label className="block text-sm font-medium text-gray-700 mb-1">Wholesale Price (Rs.)</label>
+                            <div className="relative">
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">Rs.</span>
+                                <input
+                                    type="number"
+                                    name="wholesalePrice"
+                                    value={formData.wholesalePrice}
+                                    onChange={handleChange}
+                                    className="w-full pl-10 pr-2 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"
+                                    min="0"
+                                    step="0.01"
+                                    required
+                                />
+                            </div>
                         </div>
 
                         <div>
