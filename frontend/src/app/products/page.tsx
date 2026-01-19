@@ -66,6 +66,9 @@ export default function ProductsPage() {
 
     return (
         <div className="space-y-6">
+            {/* Mobile Spacer to prevent header overlap */}
+            <div className="h-24 lg:hidden w-full"></div>
+
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <h1 className="text-2xl font-bold text-gray-900">Product Management</h1>
                 <button

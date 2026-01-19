@@ -131,6 +131,9 @@ export default function DashboardPage() {
 
     return (
         <div className="space-y-12 pb-12">
+            {/* Mobile Spacer to prevent header overlap */}
+            <div className="h-24 lg:hidden w-full"></div>
+
             {/* Header Section - Ultra Modern */}
             <div className="animate-slide-in-left space-y-4">
                 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 leading-tight">

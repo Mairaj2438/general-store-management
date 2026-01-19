@@ -159,6 +159,9 @@ export default function SalesPage() {
 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Mobile Spacer to prevent header overlap */}
+            <div className="h-24 lg:hidden w-full col-span-1"></div>
+
             {/* Left Panel: Product Selection */}
             <div className="lg:col-span-2 flex flex-col gap-6">
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
