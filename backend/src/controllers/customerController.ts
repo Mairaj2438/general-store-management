@@ -158,3 +158,31 @@ export const removeSavedProduct = async (req: Request, res: Response) => {
         res.status(400).json({ error: 'Failed to remove product' });
     }
 };
+
+export const deleteCustomer = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const { id } = req.params as { id: string };
+
+        await prisma.$transaction(async (tx) => {
+            // 1. Delete Saved Products
+            await tx.savedProduct.deleteMany({ where: { customerId: id } });
+
+            // 2. Delete Payments (Financial record removal)
+            await tx.payment.deleteMany({ where: { customerId: id } });
+
+            // 3. Unlink Sales (Keep sales history but remove customer reference)
+            // Note: Schema says customerId String?, so it's nullable.
+            await tx.sale.updateMany({
+                where: { customerId: id },
+                data: { customerId: null }
+            });
+
+            // 4. Delete Customer
+            await tx.customer.delete({ where: { id } });
+        });
+
+        res.json({ message: 'Customer deleted successfully' });
+    } catch (error) {
+        res.status(400).json({ error: 'Failed to delete customer' });
+    }
+};

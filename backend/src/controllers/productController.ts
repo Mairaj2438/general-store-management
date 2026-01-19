@@ -74,12 +74,30 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
     }
 };
 
-export const deleteProduct = async (req: Request, res: Response) => {
+export const deleteProduct = async (req: Request, res: Response): Promise<void> => {
     try {
         const { id } = req.params as { id: string };
-        await prisma.product.delete({ where: { id } });
-        res.json({ message: 'Product deleted' });
-    } catch (error) {
+
+        // Use transaction to clean up dependencies
+        await prisma.$transaction(async (tx) => {
+            // 1. Remove from any customer's "Saved For Later" list (Safe to remove)
+            await tx.savedProduct.deleteMany({
+                where: { productId: id }
+            });
+
+            // 2. Delete the product
+            // Note: If product has Sales History (SaleItem), this will still fail with P2003
+            // ensuring we don't accidentally corrupt financial data.
+            await tx.product.delete({ where: { id } });
+        });
+
+        res.json({ message: 'Product deleted successfully' });
+    } catch (error: any) {
+        // Handle Foreign Key Constraint Error (likely Sales History)
+        if (error.code === 'P2003') {
+            res.status(400).json({ error: 'Cannot delete product: It has existing Sales History. Deleting it would corrupt your financial reports.' });
+            return;
+        }
         res.status(400).json({ error: 'Failed to delete product' });
     }
 };

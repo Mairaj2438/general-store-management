@@ -125,6 +125,18 @@ export default function CustomersPage() {
         }
     };
 
+    const handleDeleteCustomer = async (id: string) => {
+        if (confirm('Are you sure you want to delete this customer? This will remove all their saved products and history.')) {
+            try {
+                await api.delete(`/customers/${id}`);
+                fetchCustomers();
+                toast.success('Customer deleted successfully');
+            } catch (error) {
+                toast.error('Failed to delete customer');
+            }
+        }
+    };
+
     const handleQuickPurchase = async () => {
         if (cart.length === 0) return;
         try {
@@ -343,6 +355,13 @@ export default function CustomersPage() {
                                     className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
                                 >
                                     <Filter size={18} />
+                                </button>
+                                <button
+                                    onClick={() => handleDeleteCustomer(customer.id)}
+                                    className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                    title="Delete Customer"
+                                >
+                                    <Trash2 size={18} />
                                 </button>
                             </div>
 
