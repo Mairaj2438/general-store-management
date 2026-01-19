@@ -81,7 +81,7 @@ export default function ProductsPage() {
             </div>
 
             {/* Search Bar - Added spacing */}
-            <div className="relative mt-8">
+            <div className="relative mt-24">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                 <input
                     type="text"
