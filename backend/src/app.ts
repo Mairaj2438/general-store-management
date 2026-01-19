@@ -5,6 +5,8 @@ import { PrismaClient } from '@prisma/client';
 export const prisma = new PrismaClient();
 const app = express();
 
+app.disable('x-powered-by');
+
 app.use(cors());
 app.use(express.json());
 
