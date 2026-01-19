@@ -74,3 +74,51 @@ export const getMe = async (req: Request, res: Response) => {
 
     res.json({ user: { id: user.id, name: user.name, email: user.email, role: user.role } });
 };
+
+const changePasswordSchema = z.object({
+    currentPassword: z.string(),
+    newPassword: z.string().min(6, 'Password must be at least 6 characters'),
+});
+
+export const changePassword = async (req: Request, res: Response): Promise<void> => {
+    try {
+        // @ts-ignore - user is attached by middleware
+        const userId = req.user?.userId;
+        if (!userId) {
+            res.status(401).json({ error: 'Unauthorized' });
+            return;
+        }
+
+        const { currentPassword, newPassword } = changePasswordSchema.parse(req.body);
+
+        const user = await prisma.user.findUnique({ where: { id: userId } });
+        if (!user) {
+            res.status(404).json({ error: 'User not found' });
+            return;
+        }
+
+        // Verify current password
+        const isValid = await comparePassword(currentPassword, user.passwordHash);
+        if (!isValid) {
+            res.status(401).json({ error: 'Current password is incorrect' });
+            return;
+        }
+
+        // Hash new password
+        const newPasswordHash = await hashPassword(newPassword);
+
+        // Update password
+        await prisma.user.update({
+            where: { id: userId },
+            data: { passwordHash: newPasswordHash },
+        });
+
+        res.json({ message: 'Password changed successfully' });
+    } catch (error) {
+        if (error instanceof z.ZodError) {
+            res.status(400).json({ error: error.issues[0]?.message || 'Validation error' });
+            return;
+        }
+        res.status(400).json({ error: 'Failed to change password' });
+    }
+};
