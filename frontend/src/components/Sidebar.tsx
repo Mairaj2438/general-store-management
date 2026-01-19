@@ -92,7 +92,7 @@ export function Sidebar() {
                     )}
                 </div>
 
-                <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+                <nav className="flex-1 p-4 space-y-3 overflow-y-auto">
                     {menuItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = pathname === item.href;
@@ -102,7 +102,7 @@ export function Sidebar() {
                                 href={item.href}
                                 onClick={closeMobileMenu}
                                 className={cn(
-                                    "flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
+                                    "flex items-center gap-3 px-4 py-4 rounded-lg text-sm font-medium transition-all duration-200",
                                     isActive
                                         ? "bg-emerald-600 text-white shadow-lg shadow-emerald-900/30"
                                         : "text-slate-400 hover:text-white hover:bg-slate-800"

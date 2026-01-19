@@ -39,7 +39,7 @@ export default function OwnerPage() {
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src={imagePreview}
-                                alt="Ghulam Abbas Khan"
+                                alt="Store Owner"
                                 className="w-full h-full object-cover"
                             />
                         </div>
@@ -60,7 +60,7 @@ export default function OwnerPage() {
                     </div>
 
                     <div className="mt-6 text-center">
-                        <h2 className="text-xl font-bold text-gray-900">Ghulam Abbas Khan</h2>
+                        <h2 className="text-xl font-bold text-gray-900">Store Owner</h2>
                         <span className="inline-block mt-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
                             Proprietor & Philanthropist
                         </span>
@@ -75,7 +75,7 @@ export default function OwnerPage() {
                             <h3 className="text-lg font-bold">Educational Legacy</h3>
                         </div>
                         <p className="text-gray-600 leading-relaxed">
-                            A retired educator with a distinguished career, Mr. Ghulam Abbas Khan has dedicated his life to the field of teaching.
+                            A retired educator with a distinguished career, the store owner has dedicated his life to the field of teaching.
                             Rather than merely creating professionals, his philosophy has always been centered on creating
                             <span className="font-semibold text-gray-800"> better human beings</span> and uplifting society through knowledge.
                         </p>

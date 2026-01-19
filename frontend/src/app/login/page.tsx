@@ -70,17 +70,17 @@ export default function LoginPage() {
                         <div className="animate-slide-in-left stagger-1 space-y-4">
                             <label className="block text-lg font-black text-gray-800">Email Address</label>
                             <div className="relative">
-                                <div className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                    <Mail className="w-6 h-6" />
-                                </div>
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full pl-16 pr-6 py-5 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400 text-lg font-semibold hover:border-gray-300 hover:bg-white"
+                                    className="w-full pl-6 pr-16 py-5 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400 text-lg font-semibold hover:border-gray-300 hover:bg-white"
                                     placeholder="Enter your email"
                                     required
                                 />
+                                <div className="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                    <Mail className="w-6 h-6" />
+                                </div>
                             </div>
                         </div>
 
@@ -88,17 +88,17 @@ export default function LoginPage() {
                         <div className="animate-slide-in-left stagger-2 space-y-4">
                             <label className="block text-lg font-black text-gray-800">Password</label>
                             <div className="relative">
-                                <div className="absolute left-5 top-1/2 transform -translate-y-1/2 text-gray-400">
-                                    <Lock className="w-6 h-6" />
-                                </div>
                                 <input
                                     type="password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-16 pr-6 py-5 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400 text-lg font-semibold hover:border-gray-300 hover:bg-white"
+                                    className="w-full pl-6 pr-16 py-5 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400 text-lg font-semibold hover:border-gray-300 hover:bg-white"
                                     placeholder="Enter your password"
                                     required
                                 />
+                                <div className="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-400">
+                                    <Lock className="w-6 h-6" />
+                                </div>
                             </div>
                         </div>
 
