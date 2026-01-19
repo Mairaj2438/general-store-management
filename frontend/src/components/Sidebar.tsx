@@ -52,8 +52,8 @@ export function Sidebar() {
 
     return (
         <>
-            {/* Mobile Header */}
-            <div className="lg:hidden fixed top-0 left-0 right-0 h-16 bg-slate-900 text-white flex items-center justify-between px-4 z-50 shadow-lg">
+            {/* Mobile Header - Increased height for better visibility */}
+            <div className="lg:hidden fixed top-0 left-0 right-0 h-20 bg-slate-900 text-white flex items-center justify-between px-6 z-50 shadow-xl">
                 <div>
                     <h2 className="text-lg font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
                         Al-Abbas Store
