@@ -59,7 +59,7 @@ export default function LoginPage() {
                     </div>
 
                     {/* Form */}
-                    <form onSubmit={handleSubmit} className="space-y-8">
+                    <form onSubmit={handleSubmit} className="space-y-12">
                         {error && (
                             <div className="p-5 text-base font-bold text-red-700 bg-red-50 border-2 border-red-200 rounded-2xl animate-slide-in-left shadow-lg">
                                 {error}
