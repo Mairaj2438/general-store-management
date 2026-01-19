@@ -16,7 +16,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     }, [user, loading, router]);
 
     if (loading) return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-emerald-500"></div>
         </div>
     );
@@ -24,20 +24,26 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     if (!user) return null;
 
     return (
-        <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+        <div className="min-h-screen bg-gray-50">
             <Sidebar />
-            <main className="ml-64 p-8 min-h-screen relative flex flex-col">
-                <div className="max-w-7xl mx-auto space-y-6 flex-1">
-                    {children}
+            <main className="lg:ml-64 pt-16 lg:pt-0 min-h-screen">
+                <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
+                    <div className="animate-fade-in">
+                        {children}
+                    </div>
                 </div>
 
-                <footer className="mt-12 py-6 border-t border-gray-100 flex items-center justify-between opacity-40 hover:opacity-100 transition-opacity">
-                    <p className="text-[10px] text-gray-400 font-medium">© 2026 Al-Abbas General Store. All rights reserved.</p>
-                    <div className="flex items-center gap-2">
-                        <span className="text-[10px] text-gray-400 font-bold tracking-widest uppercase">System by</span>
-                        <div className="flex items-center gap-1.5">
-                            <div className="w-4 h-4 bg-gray-200 rounded flex items-center justify-center text-[8px] font-black italic text-gray-500">M</div>
-                            <span className="text-[10px] font-black tracking-tighter text-gray-600">MAIRAJ'S <span className="text-emerald-600">TECH</span></span>
+                <footer className="mt-12 py-6 px-4 sm:px-6 lg:px-8 border-t border-gray-200 bg-white/50 backdrop-blur-sm">
+                    <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 opacity-50 hover:opacity-100 transition-opacity">
+                        <p className="text-xs text-gray-500 font-medium text-center sm:text-left">
+                            © 2026 Al-Abbas General Store. All rights reserved.
+                        </p>
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">System by</span>
+                            <div className="flex items-center gap-1.5">
+                                <div className="w-5 h-5 bg-gradient-to-tr from-emerald-500 to-cyan-500 rounded flex items-center justify-center text-[10px] font-black italic text-white shadow-sm">M</div>
+                                <span className="text-xs font-black tracking-tight text-gray-700">MAIRAJ'S <span className="text-emerald-600">TECH</span></span>
+                            </div>
                         </div>
                     </div>
                 </footer>
