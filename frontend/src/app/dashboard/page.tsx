@@ -133,10 +133,10 @@ export default function DashboardPage() {
         <div className="space-y-12 pb-12">
             {/* Header Section - Ultra Modern */}
             <div className="animate-slide-in-left space-y-4">
-                <h1 className="text-5xl sm:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 leading-tight">
                     Dashboard Overview
                 </h1>
-                <p className="text-xl sm:text-2xl text-gray-600 font-semibold">
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 font-semibold">
                     Welcome back! Here's your store performance today
                 </p>
             </div>

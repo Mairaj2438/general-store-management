@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import { cn } from '@/lib/utils';
-import { ShoppingBag, Mail, Lock } from 'lucide-react';
+import { ShoppingBag, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import api from '@/lib/api';
 
 export default function LoginPage() {
@@ -12,6 +12,7 @@ export default function LoginPage() {
     const { error: showError, success } = useToast();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -79,18 +80,26 @@ export default function LoginPage() {
                             </div>
                         </div>
 
+
                         {/* Password Field */}
                         <div className="animate-slide-in-left stagger-2 space-y-4">
                             <label className="block text-lg font-black text-gray-800">Password</label>
                             <div className="relative">
                                 <input
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="w-full pl-6 pr-16 py-5 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400 text-lg font-semibold hover:border-gray-300 hover:bg-white"
+                                    className="w-full pl-6 pr-24 py-5 bg-gray-50 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-gray-400 text-lg font-semibold hover:border-gray-300 hover:bg-white"
                                     placeholder="Enter your password"
                                     required
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                    className="absolute right-14 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors p-1"
+                                >
+                                    {showPassword ? <EyeOff className="w-6 h-6" /> : <Eye className="w-6 h-6" />}
+                                </button>
                                 <div className="absolute right-5 top-1/2 transform -translate-y-1/2 text-gray-400">
                                     <Lock className="w-6 h-6" />
                                 </div>
