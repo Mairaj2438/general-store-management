@@ -197,7 +197,7 @@ export default function SalesPage() {
                         </select>
                     </div>
 
-                    <div className="relative mt-24">
+                    <div className="relative mt-40">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
                         <input
                             autoFocus
