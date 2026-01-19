@@ -2,30 +2,31 @@
 
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useToast } from '@/context/ToastContext';
 import { cn } from '@/lib/utils';
 import { ShoppingBag, Mail, Lock } from 'lucide-react';
 import api from '@/lib/api';
 
 export default function LoginPage() {
     const { login } = useAuth();
+    const { error: showError, success } = useToast();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        setError('');
 
         try {
             const { data } = await api.post('/auth/login', {
                 email: email.trim(),
                 password
             });
+            success('Login successful! Welcome back.');
             login(data.token, data.user);
         } catch (err: any) {
-            setError(err.response?.data?.error || 'Login failed');
+            showError(err.response?.data?.error || 'Login failed. Please check your credentials.');
         } finally {
             setLoading(false);
         }
@@ -60,12 +61,6 @@ export default function LoginPage() {
 
                     {/* Form */}
                     <form onSubmit={handleSubmit} className="space-y-12">
-                        {error && (
-                            <div className="p-5 text-base font-bold text-red-700 bg-red-50 border-2 border-red-200 rounded-2xl animate-slide-in-left shadow-lg">
-                                {error}
-                            </div>
-                        )}
-
                         {/* Email Field */}
                         <div className="animate-slide-in-left stagger-1 space-y-4">
                             <label className="block text-lg font-black text-gray-800">Email Address</label>

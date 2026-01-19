@@ -1,13 +1,17 @@
 "use client";
 
 import { AuthProvider } from "@/context/AuthContext";
-import { Toaster } from "sonner";
+import { ToastProvider } from "@/context/ToastContext";
+import { ConfirmProvider } from "@/context/ConfirmContext";
 
 export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <AuthProvider>
-            {children}
-            <Toaster position="top-center" richColors />
+            <ToastProvider>
+                <ConfirmProvider>
+                    {children}
+                </ConfirmProvider>
+            </ToastProvider>
         </AuthProvider>
     );
 }

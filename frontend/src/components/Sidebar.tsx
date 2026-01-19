@@ -14,6 +14,8 @@ import {
     X
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { useConfirm } from '@/context/ConfirmContext';
+import { useToast } from '@/context/ToastContext';
 import { useState } from 'react';
 
 const menuItems = [
@@ -27,9 +29,26 @@ const menuItems = [
 export function Sidebar() {
     const pathname = usePathname();
     const { logout, user } = useAuth();
+    const { confirm } = useConfirm();
+    const { success } = useToast();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+    const handleLogout = () => {
+        confirm({
+            title: 'Sign Out',
+            message: 'Are you sure you want to sign out? Any unsaved changes will be lost.',
+            confirmText: 'Sign Out',
+            cancelText: 'Cancel',
+            type: 'warning',
+            onConfirm: () => {
+                logout();
+                success('You have been signed out successfully.');
+                closeMobileMenu();
+            }
+        });
+    };
 
     return (
         <>
@@ -117,10 +136,7 @@ export function Sidebar() {
 
                 <div className="p-4 border-t border-slate-800">
                     <button
-                        onClick={() => {
-                            logout();
-                            closeMobileMenu();
-                        }}
+                        onClick={handleLogout}
                         className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-sm font-medium text-red-400 hover:bg-slate-800 hover:text-red-300 transition-colors mb-4"
                     >
                         <LogOut size={20} />
