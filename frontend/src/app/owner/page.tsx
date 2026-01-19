@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Camera, Award, BookOpen, Heart, Lock, Eye, EyeOff, Key } from 'lucide-react';
 import { useToast } from '@/context/ToastContext';
 import { useConfirm } from '@/context/ConfirmContext';
@@ -10,6 +10,7 @@ export default function OwnerPage() {
     const { success, error: showError } = useToast();
     const { confirm } = useConfirm();
     const [imagePreview, setImagePreview] = useState<string>('/placeholder-owner.jpg');
+    const [isLoadingImage, setIsLoadingImage] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     // Password change state
@@ -22,15 +23,46 @@ export default function OwnerPage() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Fetch profile image on mount
+    useEffect(() => {
+        api.get('/auth/me').then(({ data }) => {
+            if (data.user?.image) {
+                setImagePreview(data.user.image);
+            }
+        }).catch(() => {
+            // If failed to load me (e.g. not logged in), ignore or redirect
+        });
+    }, []);
+
+    const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setImagePreview(reader.result as string);
-            };
-            reader.readAsDataURL(file);
+        if (!file) return;
+
+        // Limit size (e.g. 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            showError('Image too large. Please use an image under 2MB.');
+            return;
         }
+
+        setIsLoadingImage(true);
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+            const base64 = reader.result as string;
+
+            // Optimistic update
+            setImagePreview(base64);
+
+            try {
+                // Send to backend
+                await api.put('/auth/profile', { image: base64 });
+                success('Profile picture updated!');
+            } catch (err) {
+                showError('Failed to save profile picture');
+            } finally {
+                setIsLoadingImage(false);
+            }
+        };
+        reader.readAsDataURL(file);
     };
 
     const handlePasswordChange = async (e: React.FormEvent) => {

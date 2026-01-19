@@ -18,6 +18,7 @@ model User {
   email        String   @unique
   passwordHash String
   role         String   @default("STAFF") // "ADMIN" | "STAFF"
+  image        String?  // Base64 profile picture
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 }

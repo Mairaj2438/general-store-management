@@ -37,6 +37,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
+// Update login to return image
 export const login = async (req: Request, res: Response): Promise<void> => {
     try {
         const { email, password } = loginSchema.parse(req.body);
@@ -48,7 +49,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         }
 
         const token = generateToken(user.id, user.role);
-        res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role } });
+        // Include image in response
+        res.json({ token, user: { id: user.id, name: user.name, email: user.email, role: user.role, image: user.image } });
     } catch (error) {
         if (error instanceof z.ZodError) {
             res.status(400).json({ error: error.issues[0]?.message || 'Validation error' });
@@ -58,6 +60,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     }
 };
 
+// Update getMe to return image
 export const getMe = async (req: Request, res: Response) => {
     // @ts-ignore - user is attached by middleware
     const userId = req.user?.userId;
@@ -72,7 +75,7 @@ export const getMe = async (req: Request, res: Response) => {
         return;
     }
 
-    res.json({ user: { id: user.id, name: user.name, email: user.email, role: user.role } });
+    res.json({ user: { id: user.id, name: user.name, email: user.email, role: user.role, image: user.image } });
 };
 
 const changePasswordSchema = z.object({
@@ -120,5 +123,22 @@ export const changePassword = async (req: Request, res: Response): Promise<void>
             return;
         }
         res.status(400).json({ error: 'Failed to change password' });
+    }
+};
+
+export const updateProfile = async (req: Request, res: Response): Promise<void> => {
+    try {
+        // @ts-ignore
+        const userId = req.user?.userId;
+        const { image } = req.body;
+
+        await prisma.user.update({
+            where: { id: userId },
+            data: { image }
+        });
+
+        res.json({ message: 'Profile updated successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to update profile' });
     }
 };
