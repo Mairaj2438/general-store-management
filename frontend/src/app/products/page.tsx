@@ -80,8 +80,11 @@ export default function ProductsPage() {
                 </button>
             </div>
 
-            {/* Search Bar - Added spacing */}
-            <div className="relative mt-40">
+            {/* Spacer Block */}
+            <div className="h-32"></div>
+
+            {/* Search Bar */}
+            <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                 <input
                     type="text"
