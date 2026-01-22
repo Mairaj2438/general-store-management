@@ -131,7 +131,7 @@ export function Sidebar() {
                     )}
                 </div>
 
-                <nav className="flex-1 px-4 py-8 space-y-10 overflow-y-auto">
+                <nav className="flex-1 px-4 py-8 space-y-20 overflow-y-auto">
                     {menuItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = pathname === item.href;
