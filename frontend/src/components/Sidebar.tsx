@@ -116,7 +116,7 @@ export function Sidebar() {
                     )}
                 </div>
 
-                <nav className="flex-1 px-4 py-8 space-y-6 overflow-y-auto">
+                <nav className="flex-1 px-4 py-8 space-y-8 overflow-y-auto">
                     {menuItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = pathname === item.href;
@@ -126,14 +126,35 @@ export function Sidebar() {
                                 href={item.href}
                                 onClick={closeMobileMenu}
                                 className={cn(
-                                    "flex items-center gap-4 px-6 py-5 rounded-2xl text-lg font-bold transition-all duration-300 border border-transparent group tracking-wide",
+                                    "flex items-center gap-4 px-6 py-6 rounded-3xl text-xl font-black transition-all duration-300 border border-transparent group tracking-wide relative overflow-hidden",
                                     isActive
-                                        ? "bg-gradient-to-r from-emerald-500 to-emerald-700 text-white shadow-xl shadow-emerald-900/40 border-emerald-400/30 translate-x-1"
-                                        : "text-slate-300 hover:text-white hover:bg-slate-800/80 hover:border-slate-700/50 hover:pl-7 hover:shadow-lg hover:shadow-black/20"
+                                        ? "bg-slate-800/80 border-emerald-500/50 shadow-[0_0_30px_-5px_rgba(16,185,129,0.3)] scale-[1.02]"
+                                        : "hover:bg-slate-800/50 hover:border-slate-700 hover:scale-[1.02] active:scale-95"
                                 )}
                             >
-                                <Icon size={26} className={cn("transition-transform duration-300 group-hover:scale-110", isActive ? "text-white" : "text-emerald-500/80 group-hover:text-emerald-400")} />
-                                {item.label}
+                                {/* Active State Background Gradient Indicator */}
+                                {isActive && (
+                                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-emerald-500/5 to-transparent rounded-3xl" />
+                                )}
+
+                                <div className={cn(
+                                    "p-2 rounded-xl transition-all duration-300",
+                                    isActive ? "bg-gradient-to-br from-emerald-400 to-cyan-400 shadow-lg shadow-emerald-500/20" : "bg-slate-800 group-hover:bg-slate-700"
+                                )}>
+                                    <Icon size={24} className={cn(
+                                        "transition-colors duration-300",
+                                        isActive ? "text-slate-900" : "text-emerald-500 group-hover:text-emerald-400"
+                                    )} />
+                                </div>
+
+                                <span className={cn(
+                                    "bg-clip-text text-transparent bg-gradient-to-r transition-all duration-300",
+                                    isActive
+                                        ? "from-emerald-400 via-emerald-200 to-cyan-400 font-black tracking-wider"
+                                        : "from-slate-300 to-slate-400 group-hover:from-emerald-200 group-hover:to-cyan-200"
+                                )}>
+                                    {item.label}
+                                </span>
                             </Link>
                         );
                     })}
