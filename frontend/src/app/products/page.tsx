@@ -40,8 +40,8 @@ export default function ProductsPage() {
             try {
                 await api.delete(`/products/${id}`);
                 fetchProducts();
-            } catch (error) {
-                alert('Failed to delete product');
+            } catch (error: any) {
+                alert(error.response?.data?.error || 'Failed to delete product');
             }
         }
     };
@@ -101,12 +101,12 @@ export default function ProductsPage() {
                     <table className="w-full text-left border-collapse">
                         <thead className="bg-gray-50 border-b border-gray-100">
                             <tr>
-                                <th className="p-4 text-sm font-semibold text-gray-500">Name</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500">Category</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500">Price (R/W)</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500">Stock</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500">Status</th>
-                                <th className="p-4 text-sm font-semibold text-gray-500">Actions</th>
+                                <th className="px-5 py-4 text-xs font-black text-gray-500 uppercase tracking-widest">Name</th>
+                                <th className="px-5 py-4 text-xs font-black text-gray-500 uppercase tracking-widest">Category</th>
+                                <th className="px-5 py-4 text-xs font-black text-gray-500 uppercase tracking-widest">Price (R/W)</th>
+                                <th className="px-5 py-4 text-xs font-black text-gray-500 uppercase tracking-widest">Stock</th>
+                                <th className="px-5 py-4 text-xs font-black text-gray-500 uppercase tracking-widest">Status</th>
+                                <th className="px-5 py-4 text-xs font-black text-gray-500 uppercase tracking-widest">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
@@ -119,25 +119,25 @@ export default function ProductsPage() {
                                     const status = getExpiryStatus(product.expiryDate);
                                     return (
                                         <tr key={product.id} className="hover:bg-gray-50 transition-colors">
-                                            <td className="p-4">
+                                            <td className="px-5 py-4">
                                                 <div className="font-medium text-gray-900">{product.name}</div>
                                                 <div className="text-xs text-gray-400">{product.barcode}</div>
                                             </td>
-                                            <td className="p-4 text-sm text-gray-600">
+                                            <td className="px-5 py-4 text-sm text-gray-600">
                                                 <span className="px-2 py-1 bg-gray-100 rounded-md text-xs font-medium">
                                                     {product.category}
                                                 </span>
                                             </td>
-                                            <td className="p-4 text-sm text-gray-600">
+                                            <td className="px-5 py-4 text-sm text-gray-600">
                                                 <div>Retail: <span className="font-semibold">Rs. {product.retailPrice}</span></div>
                                                 <div className="text-xs text-gray-400">Wholesale: Rs. {product.wholesalePrice}</div>
                                             </td>
-                                            <td className="p-4">
+                                            <td className="px-5 py-4">
                                                 <div className={cn("font-medium", product.quantity <= 10 ? "text-orange-600" : "text-gray-700")}>
                                                     {product.quantity} units
                                                 </div>
                                             </td>
-                                            <td className="p-4">
+                                            <td className="px-5 py-4">
                                                 {status ? (
                                                     <span className={cn("px-2 py-1 rounded-full text-xs font-medium flex items-center w-fit gap-1", status.color)}>
                                                         {status.label === 'Expired' && <AlertCircle size={12} />}
@@ -145,7 +145,7 @@ export default function ProductsPage() {
                                                     </span>
                                                 ) : <span className="text-gray-400 text-xs">-</span>}
                                             </td>
-                                            <td className="p-4">
+                                            <td className="px-5 py-4">
                                                 <div className="flex gap-2">
                                                     <button
                                                         onClick={() => { setEditingProduct(product); setIsFormOpen(true); }}

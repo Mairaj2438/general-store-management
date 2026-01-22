@@ -61,9 +61,9 @@ export default function LoginPage() {
                     </div>
 
                     {/* Form */}
-                    <form onSubmit={handleSubmit} className="space-y-12">
+                    <form onSubmit={handleSubmit}>
                         {/* Email Field */}
-                        <div className="animate-slide-in-left stagger-1 space-y-4">
+                        <div className="animate-slide-in-left stagger-1 space-y-4 mb-12">
                             <label className="block text-lg font-black text-gray-800">Email Address</label>
                             <div className="relative">
                                 <input
@@ -111,7 +111,7 @@ export default function LoginPage() {
                             type="submit"
                             disabled={loading}
                             className={cn(
-                                "w-full py-6 px-8 text-white text-xl font-black bg-gradient-to-r from-emerald-600 via-emerald-700 to-emerald-800 hover:from-emerald-700 hover:via-emerald-800 hover:to-emerald-900 rounded-2xl shadow-2xl hover:shadow-3xl transition-all active:scale-[0.98] animate-slide-up stagger-3 mt-10",
+                                "w-full py-6 px-8 text-white text-xl font-black bg-gradient-to-r from-emerald-600 via-emerald-700 to-emerald-800 hover:from-emerald-700 hover:via-emerald-800 hover:to-emerald-900 rounded-2xl shadow-2xl hover:shadow-3xl transition-all active:scale-[0.98] animate-slide-up stagger-3 mt-[18rem]",
                                 loading && "opacity-70 cursor-not-allowed"
                             )}
                         >
@@ -125,7 +125,7 @@ export default function LoginPage() {
                     </form>
 
                     {/* Footer */}
-                    <div className="mt-10 text-center animate-fade-in" style={{ animationDelay: '0.4s' }}>
+                    <div className="mt-[18rem] text-center animate-fade-in" style={{ animationDelay: '0.4s' }}>
                         <div className="flex items-center justify-center gap-3 text-gray-400 mb-4">
                             <div className="h-px bg-gray-300 w-20"></div>
                             <span className="text-xs uppercase tracking-widest font-bold">Powered by</span>

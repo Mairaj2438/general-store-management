@@ -757,6 +757,7 @@ export default function CustomersPage() {
                                     type="number"
                                     required
                                     min="0.01"
+                                    max={selectedCustomer.balance}
                                     step="0.01"
                                     value={paymentAmount}
                                     onChange={(e) => setPaymentAmount(e.target.value)}
@@ -764,6 +765,9 @@ export default function CustomersPage() {
                                     className="w-full pl-10 pr-4 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl outline-none focus:border-blue-500 text-3xl font-black transition-all"
                                     autoFocus
                                 />
+                            </div>
+                            <div className="text-sm font-medium">
+                                <span className="text-gray-400">Total Due:</span> <span className="text-rose-600 font-bold">Rs. {selectedCustomer.balance.toFixed(2)}</span>
                             </div>
                             <div className="flex gap-3">
                                 <button

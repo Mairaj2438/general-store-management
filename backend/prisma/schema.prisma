@@ -36,6 +36,7 @@ model Product {
   batchNumber    String?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  deletedAt      DateTime? // Soft delete support
   sales          SaleItem[]
   savedProducts  SavedProduct[]
 }

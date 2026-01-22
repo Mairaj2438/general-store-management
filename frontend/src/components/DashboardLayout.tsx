@@ -6,6 +6,8 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
+import { ArrowLeft } from 'lucide-react';
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const { user, loading } = useAuth();
     const router = useRouter();
@@ -26,6 +28,19 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* Mobile: pt-32 (128px) = h-20 header (80px) + 48px clearance for buttons */}
             <main className="lg:ml-64 pt-32 lg:pt-0 min-h-screen">
                 <div className="p-6 sm:p-8 lg:p-10 max-w-7xl mx-auto">
+                    {/* Back Button */}
+                    <div className="mb-6 relative z-10">
+                        <button
+                            onClick={() => router.back()}
+                            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors font-bold text-sm group"
+                        >
+                            <div className="p-2 bg-white rounded-xl border border-gray-200 group-hover:border-emerald-500 group-hover:bg-emerald-50 shadow-sm transition-all">
+                                <ArrowLeft size={18} className="group-hover:text-emerald-600 transition-colors" />
+                            </div>
+                            <span>Go Back (Previous Page)</span>
+                        </button>
+                    </div>
+
                     <div className="animate-fade-in">
                         {children}
                     </div>

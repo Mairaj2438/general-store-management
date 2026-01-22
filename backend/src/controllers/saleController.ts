@@ -34,8 +34,8 @@ export const createSale = async (req: Request, res: Response): Promise<void> => 
 
             for (const item of items) {
                 const product = await tx.product.findUnique({ where: { id: item.productId } });
-                if (!product) {
-                    throw new Error(`Product ${item.productId} not found`);
+                if (!product || product.deletedAt) {
+                    throw new Error(`Product ${item.productId} not found or deleted`);
                 }
                 if (product.quantity < item.quantity) {
                     throw new Error(`Insufficient stock for ${product.name}`);

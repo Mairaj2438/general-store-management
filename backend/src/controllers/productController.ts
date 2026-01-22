@@ -17,6 +17,7 @@ const productSchema = z.object({
 export const getProducts = async (req: Request, res: Response) => {
     try {
         const products = await prisma.product.findMany({
+            where: { deletedAt: null },
             orderBy: { createdAt: 'desc' },
         });
         res.json(products);
@@ -29,7 +30,7 @@ export const getProduct = async (req: Request, res: Response): Promise<void> => 
     try {
         const { id } = req.params as { id: string };
         const product = await prisma.product.findUnique({ where: { id } });
-        if (!product) {
+        if (!product || product.deletedAt) {
             res.status(404).json({ error: 'Product not found' });
             return;
         }
@@ -47,6 +48,8 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
         if (data.barcode) {
             const existing = await prisma.product.findUnique({ where: { barcode: data.barcode } });
             if (existing) {
+                // Determine if the existing product is active or deleted
+                // (Optional: You could check existing.deletedAt here to give a specific message)
                 res.status(400).json({ error: 'Barcode already exists' });
                 return;
             }
@@ -85,19 +88,17 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
                 where: { productId: id }
             });
 
-            // 2. Delete the product
-            // Note: If product has Sales History (SaleItem), this will still fail with P2003
-            // ensuring we don't accidentally corrupt financial data.
-            await tx.product.delete({ where: { id } });
+            // 2. Soft Delete the product (Set deletedAt)
+            // This preserves Sales History relationship
+            await tx.product.update({
+                where: { id },
+                data: { deletedAt: new Date() }
+            });
         });
 
         res.json({ message: 'Product deleted successfully' });
     } catch (error: any) {
-        // Handle Foreign Key Constraint Error (likely Sales History)
-        if (error.code === 'P2003') {
-            res.status(400).json({ error: 'Cannot delete product: It has existing Sales History. Deleting it would corrupt your financial reports.' });
-            return;
-        }
-        res.status(400).json({ error: 'Failed to delete product' });
+        console.error('Delete Product Error:', error);
+        res.status(400).json({ error: error.message || 'Failed to delete product' });
     }
 };

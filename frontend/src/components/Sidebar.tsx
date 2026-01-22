@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
+    Home,
     LayoutDashboard,
     Package,
     ShoppingCart,
@@ -11,15 +12,17 @@ import {
     Settings,
     LogOut,
     Menu,
-    X
+    X,
+    ArrowLeft
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useConfirm } from '@/context/ConfirmContext';
 import { useToast } from '@/context/ToastContext';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const menuItems = [
-    { href: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+    { href: '/dashboard', icon: Home, label: 'Home' },
     { href: '/products', icon: Package, label: 'Products' },
     { href: '/sales', icon: ShoppingCart, label: 'Sales' },
     { href: '/customers', icon: Users, label: 'Customers' },
@@ -85,10 +88,12 @@ export function Sidebar() {
             )}>
                 {/* Desktop Header */}
                 <div className="p-6 border-b border-slate-800 hidden lg:block">
-                    <h2 className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                        Al-Abbas General Store
-                    </h2>
-                    <p className="text-xs text-slate-500 mt-1">Shahjamal</p>
+                    <Link href="/dashboard" className="block hover:opacity-80 transition-opacity">
+                        <h2 className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+                            Al-Abbas General Store
+                        </h2>
+                        <p className="text-xs text-slate-500 mt-1">Shahjamal</p>
+                    </Link>
                     {user && (
                         <div className="mt-3 p-2 bg-slate-800/50 rounded-lg">
                             <p className="text-[10px] text-slate-500 uppercase tracking-wider">Logged in as</p>
@@ -111,7 +116,7 @@ export function Sidebar() {
                     )}
                 </div>
 
-                <nav className="flex-1 p-4 space-y-3 overflow-y-auto">
+                <nav className="flex-1 px-4 py-6 space-y-4 overflow-y-auto">
                     {menuItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = pathname === item.href;
@@ -121,13 +126,13 @@ export function Sidebar() {
                                 href={item.href}
                                 onClick={closeMobileMenu}
                                 className={cn(
-                                    "flex items-center gap-3 px-4 py-4 rounded-lg text-sm font-medium transition-all duration-200",
+                                    "flex items-center gap-4 px-5 py-4 rounded-xl text-base font-bold transition-all duration-200 border border-transparent",
                                     isActive
-                                        ? "bg-emerald-600 text-white shadow-lg shadow-emerald-900/30"
-                                        : "text-slate-400 hover:text-white hover:bg-slate-800"
+                                        ? "bg-emerald-600 text-white shadow-lg shadow-emerald-900/30 border-emerald-500/50"
+                                        : "text-slate-400 hover:text-white hover:bg-slate-800 hover:border-slate-700"
                                 )}
                             >
-                                <Icon size={20} />
+                                <Icon size={22} className={cn(isActive ? "text-white" : "text-slate-500 group-hover:text-white")} />
                                 {item.label}
                             </Link>
                         );

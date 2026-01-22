@@ -48,6 +48,20 @@ export const addPayment = async (req: Request, res: Response): Promise<void> => 
         const { id } = req.params as { id: string };
         const { amount } = z.object({ amount: z.number().positive() }).parse(req.body);
 
+        // Fetch current balance to validate
+        const customer = await prisma.customer.findUnique({ where: { id } });
+        if (!customer) {
+            res.status(404).json({ error: 'Customer not found' });
+            return;
+        }
+
+        // Prevent overpayment (No advance payments allowed)
+        // Check if amount is greater than balance (using a small epsilon for float precision if needed, but direct comparison is usually fine for this rule)
+        if (amount > customer.balance) {
+            res.status(400).json({ error: `Cannot accept payment (Rs. ${amount}) greater than due amount (Rs. ${customer.balance})` });
+            return;
+        }
+
         // Transaction: Create Payment record AND update Balance
         await prisma.$transaction([
             prisma.payment.create({
@@ -64,8 +78,8 @@ export const addPayment = async (req: Request, res: Response): Promise<void> => 
         ]);
 
         res.json({ message: 'Payment recorded' });
-    } catch (error) {
-        res.status(400).json({ error: 'Failed to record payment' });
+    } catch (error: any) {
+        res.status(400).json({ error: error.message || 'Failed to record payment' });
     }
 };
 

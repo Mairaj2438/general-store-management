@@ -166,7 +166,7 @@ export default function SalesPage() {
             <div className="lg:col-span-2 flex flex-col gap-6">
                 <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
                     <div className="flex justify-between items-center mb-6">
-                        <h2 className="text-xl font-bold text-gray-900">New Sale</h2>
+                        <h2 className="text-xl font-bold text-gray-900">Point of Sale (Live Updated)</h2>
                         <div className="flex bg-gray-100 p-1 rounded-lg">
                             <button
                                 onClick={() => setMode('RETAIL')}
@@ -236,12 +236,7 @@ export default function SalesPage() {
 
                 {/* Product Grid (Quick Access - Top Selling maybe? For now just empty or static list) */}
                 {/* We can show all products if search is empty? No, too many. Leave blank or "Type to search" */}
-                <div className="flex-1 bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex items-center justify-center text-gray-400">
-                    <div className="text-center">
-                        <Search className="w-12 h-12 mx-auto mb-2 opacity-20" />
-                        <p>Scan barcode or search to add items</p>
-                    </div>
-                </div>
+
             </div>
 
             {/* Right Panel: Cart */}
@@ -278,46 +273,59 @@ export default function SalesPage() {
                                         </button>
                                     </div>
 
-                                    <div className="flex flex-col gap-2">
-                                        <div className="flex items-center justify-between">
-                                            <button
-                                                onClick={() => setCart((prev: any) => prev.map((p: any) => p.id === item.id ? { ...p, sellByAmount: !p.sellByAmount, targetAmount: price } : p))}
-                                                className={`text-[10px] px-2 py-0.5 rounded-full font-bold transition-colors ${item.sellByAmount ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}
-                                            >
-                                                {item.sellByAmount ? 'FIXED AMOUNT' : 'BY QUANTITY'}
-                                            </button>
-                                            <div className="text-right">
-                                                <p className="text-xs text-gray-400 uppercase font-black text-[10px]">Total</p>
-                                                <p className="font-bold text-gray-900">
-                                                    Rs. {item.sellByAmount ? (item.targetAmount || 0).toFixed(2) : (price * item.cartQuantity).toFixed(2)}
-                                                </p>
+                                    <div className="mt-3 pt-3 border-t border-gray-100">
+                                        <div className="flex flex-col gap-3">
+                                            {/* Control Bar */}
+                                            <div className="flex items-center justify-between gap-2">
+                                                <button
+                                                    onClick={() => setCart((prev: any) => prev.map((p: any) => p.id === item.id ? { ...p, sellByAmount: !p.sellByAmount, targetAmount: p.sellByAmount ? 0 : price } : p))}
+                                                    className={cn(
+                                                        "flex-1 py-1.5 px-3 rounded-lg text-xs font-bold uppercase tracking-wider transition-all border",
+                                                        item.sellByAmount
+                                                            ? "bg-blue-50 text-blue-700 border-blue-200 hover:bg-blue-100"
+                                                            : "bg-gray-50 text-gray-600 border-gray-200 hover:bg-gray-100"
+                                                    )}
+                                                >
+                                                    {item.sellByAmount ? 'Mode: Amount (Rs)' : 'Mode: Quantity (Qty)'}
+                                                </button>
+
+                                                <div className="text-right min-w-[80px]">
+                                                    <p className="text-[10px] text-gray-400 font-bold uppercase">Total</p>
+                                                    <p className="font-bold text-gray-900 text-lg leading-tight">
+                                                        Rs. {item.sellByAmount ? (item.targetAmount || 0).toFixed(0) : (price * item.cartQuantity).toFixed(0)}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            {/* Input Area */}
+                                            <div className="relative">
+                                                {item.sellByAmount ? (
+                                                    <div className="flex items-center">
+                                                        <span className="absolute left-3 text-sm font-bold text-blue-400">Rs.</span>
+                                                        <input
+                                                            type="number"
+                                                            value={item.targetAmount}
+                                                            onChange={(e) => setCart((prev: any) => prev.map((p: any) => p.id === item.id ? { ...p, targetAmount: parseFloat(e.target.value) || 0 } : p))}
+                                                            className="w-full pl-10 pr-4 py-2 bg-blue-50/50 border border-blue-200 rounded-xl font-bold text-blue-900 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                                                            placeholder="Amount"
+                                                            autoFocus
+                                                        />
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex items-center gap-2">
+                                                        <button onClick={() => updateQuantity(item.id, item.cartQuantity - 0.5)} className="w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-xl flex items-center justify-center font-bold text-gray-600 transition-colors">-</button>
+                                                        <input
+                                                            type="number"
+                                                            step="0.01"
+                                                            value={item.cartQuantity}
+                                                            onChange={(e) => updateQuantity(item.id, parseFloat(e.target.value) || 0)}
+                                                            className="flex-1 h-9 text-center bg-gray-50 border border-gray-200 rounded-xl text-sm font-bold outline-none focus:border-emerald-500 focus:bg-white transition-all"
+                                                        />
+                                                        <button onClick={() => updateQuantity(item.id, item.cartQuantity + 0.5)} className="w-9 h-9 bg-gray-100 hover:bg-gray-200 rounded-xl flex items-center justify-center font-bold text-gray-600 transition-colors">+</button>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
-
-                                        {item.sellByAmount ? (
-                                            <div className="relative">
-                                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400">Rs.</span>
-                                                <input
-                                                    type="number"
-                                                    value={item.targetAmount}
-                                                    onChange={(e) => setCart((prev: any) => prev.map((p: any) => p.id === item.id ? { ...p, targetAmount: parseFloat(e.target.value) || 0 } : p))}
-                                                    className="w-full pl-9 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
-                                                    placeholder="Enter Rupees amount"
-                                                />
-                                            </div>
-                                        ) : (
-                                            <div className="flex items-center gap-2">
-                                                <button onClick={() => updateQuantity(item.id, item.cartQuantity - 0.5)} className="w-10 h-10 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 flex items-center justify-center font-bold">-</button>
-                                                <input
-                                                    type="number"
-                                                    step="0.01"
-                                                    value={item.cartQuantity}
-                                                    onChange={(e) => updateQuantity(item.id, parseFloat(e.target.value) || 0)}
-                                                    className="flex-1 h-10 text-center bg-white border border-gray-200 rounded-lg text-sm font-bold outline-none"
-                                                />
-                                                <button onClick={() => updateQuantity(item.id, item.cartQuantity + 0.5)} className="w-10 h-10 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 flex items-center justify-center font-bold">+</button>
-                                            </div>
-                                        )}
                                     </div>
                                 </div>
                             );
