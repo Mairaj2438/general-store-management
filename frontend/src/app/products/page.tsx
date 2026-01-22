@@ -125,7 +125,7 @@ export default function ProductsPage() {
                         return (
                             <div
                                 key={product.id}
-                                className="group relative glass-card p-4 rounded-2xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+                                className="group relative glass-card px-5 pt-5 pb-7 rounded-2xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
                             >
                                 {/* Decorative Gradient Blob */}
                                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-emerald-100 to-cyan-100 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
@@ -174,7 +174,7 @@ export default function ProductsPage() {
                                     </div>
 
                                     {/* Footer / Status */}
-                                    <div className="flex items-center justify-between pt-4 border-t border-gray-100/50">
+                                    <div className="flex items-center justify-between pt-4 border-t border-gray-100/50 mt-2">
                                         <div className="flex items-center gap-2">
                                             <div className={cn("w-2 h-2 rounded-full", product.quantity <= 10 ? "bg-red-500 animate-pulse" : "bg-emerald-500")}></div>
                                             <span className={cn("font-bold text-sm", product.quantity <= 10 ? "text-red-600" : "text-gray-600")}>
@@ -183,7 +183,7 @@ export default function ProductsPage() {
                                         </div>
 
                                         {status && (
-                                            <div className={cn("px-2 py-0.5 rounded-md text-[10px] font-bold flex items-center gap-1", status.color)}>
+                                            <div className={cn("px-2.5 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1.5 shadow-sm", status.color)}>
                                                 {status.label === 'Expired' && <AlertCircle size={10} />}
                                                 {status.label}
                                             </div>
