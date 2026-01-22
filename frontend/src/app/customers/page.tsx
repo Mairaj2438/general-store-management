@@ -26,6 +26,7 @@ export default function CustomersPage() {
     const [customerLedger, setCustomerLedger] = useState<any[]>([]);
     const [formData, setFormData] = useState({ name: '', shopName: '', phone: '', category: 'REGULAR' });
     const [paymentAmount, setPaymentAmount] = useState('');
+    const [nameError, setNameError] = useState('');
 
     // Purchase Logic
     const [cart, setCart] = useState<any[]>([]);
@@ -118,6 +119,7 @@ export default function CustomersPage() {
             }
             setIsFormOpen(false);
             setFormData({ name: '', shopName: '', phone: '', category: 'REGULAR' });
+            setNameError('');
             setSelectedCustomer(null);
             fetchCustomers();
         } catch (error) {
@@ -289,7 +291,7 @@ export default function CustomersPage() {
                     <p className="text-gray-500">Manage your wholesale and regular clients</p>
                 </div>
                 <button
-                    onClick={() => { setSelectedCustomer(null); setFormData({ name: '', shopName: '', phone: '', category: 'REGULAR' }); setIsFormOpen(true); }}
+                    onClick={() => { setSelectedCustomer(null); setFormData({ name: '', shopName: '', phone: '', category: 'REGULAR' }); setNameError(''); setIsFormOpen(true); }}
                     className="flex items-center gap-2 px-6 py-3 bg-emerald-600 text-white rounded-xl hover:bg-emerald-700 transition-all shadow-lg hover:shadow-emerald-200"
                 >
                     <Plus size={20} />
@@ -353,6 +355,7 @@ export default function CustomersPage() {
                                     onClick={() => {
                                         setSelectedCustomer(customer);
                                         setFormData({ name: customer.name, shopName: customer.shopName || '', phone: customer.phone, category: customer.category });
+                                        setNameError('');
                                         setIsFormOpen(true);
                                     }}
                                     className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
@@ -681,10 +684,19 @@ export default function CustomersPage() {
                                 <input
                                     required
                                     value={formData.name}
-                                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+                                        if (/\d/.test(val)) {
+                                            setNameError('Invalid name: Numbers not allowed');
+                                        } else {
+                                            setNameError('');
+                                            setFormData(prev => ({ ...prev, name: val }));
+                                        }
+                                    }}
                                     placeholder="e.g. John Doe"
-                                    className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-emerald-500 font-medium transition-all"
+                                    className={`w-full p-3 bg-gray-50 border rounded-xl outline-none focus:ring-2 font-medium transition-all ${nameError ? 'border-red-500 focus:ring-red-200' : 'border-gray-200 focus:ring-emerald-500'}`}
                                 />
+                                {nameError && <p className="text-xs text-red-500 font-bold mt-1">{nameError}</p>}
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
