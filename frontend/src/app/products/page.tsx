@@ -81,7 +81,7 @@ export default function ProductsPage() {
             </div>
 
             {/* Spacer Block */}
-            <div className="h-32"></div>
+            <div className="h-16"></div>
 
             {/* Search Bar */}
             <div className="relative">
