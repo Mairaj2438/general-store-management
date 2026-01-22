@@ -95,79 +95,105 @@ export default function ProductsPage() {
                 />
             </div>
 
-            {/* Product Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
-                        <thead className="bg-gray-50 border-b border-gray-100">
-                            <tr>
-                                <th className="px-5 py-4 text-xs font-black text-gray-500 uppercase tracking-widest">Name</th>
-                                <th className="px-5 py-4 text-xs font-black text-gray-500 uppercase tracking-widest">Category</th>
-                                <th className="px-5 py-4 text-xs font-black text-gray-500 uppercase tracking-widest">Price (R/W)</th>
-                                <th className="px-5 py-4 text-xs font-black text-gray-500 uppercase tracking-widest">Stock</th>
-                                <th className="px-5 py-4 text-xs font-black text-gray-500 uppercase tracking-widest">Status</th>
-                                <th className="px-5 py-4 text-xs font-black text-gray-500 uppercase tracking-widest">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-gray-100">
-                            {loading ? (
-                                <tr><td colSpan={6} className="p-8 text-center text-gray-500">Loading products...</td></tr>
-                            ) : filteredProducts.length === 0 ? (
-                                <tr><td colSpan={6} className="p-8 text-center text-gray-500">No products found.</td></tr>
-                            ) : (
-                                filteredProducts.map((product) => {
-                                    const status = getExpiryStatus(product.expiryDate);
-                                    return (
-                                        <tr key={product.id} className="hover:bg-gray-50 transition-colors">
-                                            <td className="px-5 py-4">
-                                                <div className="font-medium text-gray-900">{product.name}</div>
-                                                <div className="text-xs text-gray-400">{product.barcode}</div>
-                                            </td>
-                                            <td className="px-5 py-4 text-sm text-gray-600">
-                                                <span className="px-2 py-1 bg-gray-100 rounded-md text-xs font-medium">
-                                                    {product.category}
-                                                </span>
-                                            </td>
-                                            <td className="px-5 py-4 text-sm text-gray-600">
-                                                <div>Retail: <span className="font-semibold">Rs. {product.retailPrice}</span></div>
-                                                <div className="text-xs text-gray-400">Wholesale: Rs. {product.wholesalePrice}</div>
-                                            </td>
-                                            <td className="px-5 py-4">
-                                                <div className={cn("font-medium", product.quantity <= 10 ? "text-orange-600" : "text-gray-700")}>
-                                                    {product.quantity} units
-                                                </div>
-                                            </td>
-                                            <td className="px-5 py-4">
-                                                {status ? (
-                                                    <span className={cn("px-2 py-1 rounded-full text-xs font-medium flex items-center w-fit gap-1", status.color)}>
-                                                        {status.label === 'Expired' && <AlertCircle size={12} />}
-                                                        {status.label}
-                                                    </span>
-                                                ) : <span className="text-gray-400 text-xs">-</span>}
-                                            </td>
-                                            <td className="px-5 py-4">
-                                                <div className="flex gap-2">
-                                                    <button
-                                                        onClick={() => { setEditingProduct(product); setIsFormOpen(true); }}
-                                                        className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                                                    >
-                                                        <Edit size={16} />
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleDelete(product.id)}
-                                                        className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                                    >
-                                                        <Trash2 size={16} />
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    );
-                                })
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+            {/* Product Grid - Replacing Table for Eye-Catching Responsiveness */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {loading ? (
+                    // Skeleton Loading Cards
+                    [1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                        <div key={i} className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 space-y-4">
+                            <div className="flex justify-between">
+                                <div className="skeleton h-6 w-24 rounded-lg"></div>
+                                <div className="skeleton h-6 w-8 rounded-full"></div>
+                            </div>
+                            <div className="skeleton h-4 w-16 rounded-md"></div>
+                            <div className="pt-4 space-y-2">
+                                <div className="skeleton h-8 w-full rounded-xl"></div>
+                            </div>
+                        </div>
+                    ))
+                ) : filteredProducts.length === 0 ? (
+                    <div className="col-span-full py-20 text-center">
+                        <div className="inline-flex items-center justify-center w-24 h-24 bg-gray-100 rounded-full mb-6">
+                            <Search className="w-10 h-10 text-gray-400" />
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-900 mb-2">No products found</h3>
+                        <p className="text-gray-500">Try adjusting your search or add a new product.</p>
+                    </div>
+                ) : (
+                    filteredProducts.map((product) => {
+                        const status = getExpiryStatus(product.expiryDate);
+                        return (
+                            <div
+                                key={product.id}
+                                className="group relative glass-card p-6 rounded-[2rem] hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+                            >
+                                {/* Decorative Gradient Blob */}
+                                <div className="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-emerald-100 to-cyan-100 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+
+                                <div className="relative z-10">
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div>
+                                            <span className="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider rounded-full mb-2 border border-emerald-100">
+                                                {product.category}
+                                            </span>
+                                            <h3 className="text-xl font-black text-gray-800 leading-tight mb-1 group-hover:text-emerald-700 transition-colors">
+                                                {product.name}
+                                            </h3>
+                                            <p className="text-sm text-gray-400 font-mono tracking-wide">{product.barcode || 'No Barcode'}</p>
+                                        </div>
+
+                                        {/* Actions Menu (Always visible or hover) */}
+                                        <div className="flex gap-1">
+                                            <button
+                                                onClick={() => { setEditingProduct(product); setIsFormOpen(true); }}
+                                                className="p-2 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm"
+                                                title="Edit Product"
+                                            >
+                                                <Edit size={16} />
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(product.id)}
+                                                className="p-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition-all shadow-sm"
+                                                title="Delete Product"
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Price & Stock Section */}
+                                    <div className="grid grid-cols-2 gap-4 my-6">
+                                        <div className="bg-gray-50/80 p-3 rounded-2xl border border-gray-100">
+                                            <p className="text-[10px] text-gray-400 font-bold uppercase">Retail Price</p>
+                                            <p className="text-lg font-black text-gray-900">Rs. {product.retailPrice}</p>
+                                        </div>
+                                        <div className="bg-gray-50/80 p-3 rounded-2xl border border-gray-100">
+                                            <p className="text-[10px] text-gray-400 font-bold uppercase">Wholesale</p>
+                                            <p className="text-lg font-black text-gray-900">Rs. {product.wholesalePrice}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Footer / Status */}
+                                    <div className="flex items-center justify-between pt-4 border-t border-gray-100/50">
+                                        <div className="flex items-center gap-2">
+                                            <div className={cn("w-2 h-2 rounded-full", product.quantity <= 10 ? "bg-red-500 animate-pulse" : "bg-emerald-500")}></div>
+                                            <span className={cn("font-bold text-sm", product.quantity <= 10 ? "text-red-600" : "text-gray-600")}>
+                                                {product.quantity} in Stock
+                                            </span>
+                                        </div>
+
+                                        {status && (
+                                            <div className={cn("px-2 py-0.5 rounded-md text-[10px] font-bold flex items-center gap-1", status.color)}>
+                                                {status.label === 'Expired' && <AlertCircle size={10} />}
+                                                {status.label}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })
+                )}
             </div>
 
             {isFormOpen && (

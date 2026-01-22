@@ -164,7 +164,7 @@ export default function SalesPage() {
 
             {/* Left Panel: Product Selection */}
             <div className="lg:col-span-2 flex flex-col gap-6">
-                <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <div className="glass-card p-6 rounded-[2rem] shadow-sm border border-emerald-100/50">
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-xl font-bold text-gray-900">Point of Sale (Live Updated)</h2>
                         <div className="flex bg-gray-100 p-1 rounded-lg">
