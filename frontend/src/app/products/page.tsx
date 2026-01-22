@@ -125,44 +125,44 @@ export default function ProductsPage() {
                         return (
                             <div
                                 key={product.id}
-                                className="group relative glass-card p-6 rounded-[2rem] hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+                                className="group relative glass-card p-4 rounded-2xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
                             >
                                 {/* Decorative Gradient Blob */}
                                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br from-emerald-100 to-cyan-100 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
 
                                 <div className="relative z-10">
-                                    <div className="flex justify-between items-start mb-4">
-                                        <div>
-                                            <span className="inline-block px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold uppercase tracking-wider rounded-full mb-2 border border-emerald-100">
+                                    <div className="flex justify-between items-start mb-3">
+                                        <div className="pr-2">
+                                            <span className="inline-block px-2 py-0.5 bg-emerald-50 text-emerald-700 text-[10px] font-bold uppercase tracking-wider rounded-full mb-1 border border-emerald-100">
                                                 {product.category}
                                             </span>
-                                            <h3 className="text-xl font-black text-gray-800 leading-tight mb-1 group-hover:text-emerald-700 transition-colors">
+                                            <h3 className="text-lg font-black text-gray-800 leading-tight mb-0.5 group-hover:text-emerald-700 transition-colors line-clamp-2">
                                                 {product.name}
                                             </h3>
-                                            <p className="text-sm text-gray-400 font-mono tracking-wide">{product.barcode || 'No Barcode'}</p>
+                                            <p className="text-[10px] text-gray-400 font-mono tracking-wide">{product.barcode || 'No Barcode'}</p>
                                         </div>
 
                                         {/* Actions Menu (Always visible or hover) */}
-                                        <div className="flex gap-1">
+                                        <div className="flex gap-1 shrink-0">
                                             <button
                                                 onClick={() => { setEditingProduct(product); setIsFormOpen(true); }}
-                                                className="p-2 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-600 hover:text-white transition-all shadow-sm"
+                                                className="p-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all shadow-sm"
                                                 title="Edit Product"
                                             >
-                                                <Edit size={16} />
+                                                <Edit size={14} />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(product.id)}
-                                                className="p-2 bg-red-50 text-red-600 rounded-xl hover:bg-red-600 hover:text-white transition-all shadow-sm"
+                                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm"
                                                 title="Delete Product"
                                             >
-                                                <Trash2 size={16} />
+                                                <Trash2 size={14} />
                                             </button>
                                         </div>
                                     </div>
 
                                     {/* Price & Stock Section */}
-                                    <div className="grid grid-cols-2 gap-4 my-6">
+                                    <div className="grid grid-cols-2 gap-3 my-4">
                                         <div className="bg-gray-50/80 p-3 rounded-2xl border border-gray-100">
                                             <p className="text-[10px] text-gray-400 font-bold uppercase">Retail Price</p>
                                             <p className="text-lg font-black text-gray-900">Rs. {product.retailPrice}</p>
