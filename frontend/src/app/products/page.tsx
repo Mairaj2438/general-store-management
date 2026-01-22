@@ -143,20 +143,20 @@ export default function ProductsPage() {
                                         </div>
 
                                         {/* Actions Menu (Always visible or hover) */}
-                                        <div className="flex gap-1 shrink-0">
+                                        <div className="flex gap-2 shrink-0 mr-1">
                                             <button
                                                 onClick={() => { setEditingProduct(product); setIsFormOpen(true); }}
-                                                className="p-1.5 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all shadow-sm"
+                                                className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-600 hover:text-white transition-all shadow-sm"
                                                 title="Edit Product"
                                             >
-                                                <Edit size={14} />
+                                                <Edit size={16} />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(product.id)}
-                                                className="p-1.5 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm"
+                                                className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm"
                                                 title="Delete Product"
                                             >
-                                                <Trash2 size={14} />
+                                                <Trash2 size={16} />
                                             </button>
                                         </div>
                                     </div>
@@ -183,8 +183,8 @@ export default function ProductsPage() {
                                         </div>
 
                                         {status && (
-                                            <div className={cn("px-2.5 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1.5 shadow-sm", status.color)}>
-                                                {status.label === 'Expired' && <AlertCircle size={10} />}
+                                            <div className={cn("px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-sm mr-1", status.color)}>
+                                                {status.label === 'Expired' && <AlertCircle size={12} />}
                                                 {status.label}
                                             </div>
                                         )}
