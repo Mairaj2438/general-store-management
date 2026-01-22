@@ -106,32 +106,32 @@ export default function OwnerPage() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8">
+        <div className="max-w-7xl mx-auto pb-24 space-y-16">
             {/* Stylish Isolated Header */}
-            <div className="mt-16 mb-20 relative animate-fade-in-down">
+            <div className="mt-52 mb-32 relative animate-fade-in-down">
                 {/* Decorative background blur */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-32 bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-purple-500/20 blur-[100px] rounded-full -z-10"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 h-64 bg-gradient-to-r from-emerald-500/20 via-blue-500/20 to-purple-500/20 blur-[120px] rounded-full -z-10"></div>
 
-                <div className="relative bg-white/80 backdrop-blur-2xl border border-white/50 p-10 md:p-14 rounded-[2.5rem] shadow-2xl overflow-hidden text-center group hover:shadow-[0_20px_50px_-12px_rgba(16,185,129,0.25)] transition-all duration-700">
+                <div className="relative bg-white/80 backdrop-blur-2xl border border-white/50 py-32 px-10 rounded-[4rem] shadow-2xl overflow-hidden text-center group hover:shadow-[0_20px_50px_-12px_rgba(16,185,129,0.25)] transition-all duration-700 mx-4">
                     {/* Floating ambient shapes */}
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-100/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-200/50 transition-colors duration-700"></div>
-                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-100/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 group-hover:bg-blue-200/50 transition-colors duration-700"></div>
+                    <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-100/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-emerald-200/50 transition-colors duration-700"></div>
+                    <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-100/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 group-hover:bg-blue-200/50 transition-colors duration-700"></div>
 
                     {/* Top Accent Line */}
-                    <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-emerald-400 via-cyan-500 to-emerald-400 bg-[length:200%_auto] animate-gradient"></div>
+                    <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-400 via-cyan-500 to-emerald-400 bg-[length:200%_auto] animate-gradient"></div>
 
-                    <h1 className="relative text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-br from-slate-800 via-emerald-800 to-slate-800 mb-6 tracking-tight drop-shadow-sm font-sans">
+                    <h1 className="relative text-6xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-br from-slate-800 via-emerald-800 to-slate-800 mb-10 tracking-tight drop-shadow-sm font-sans">
                         Owner Profile
                     </h1>
 
-                    <div className="relative flex items-center justify-center gap-6 text-slate-500 font-bold tracking-[0.3em] uppercase text-xs md:text-sm">
-                        <span className="w-8 md:w-20 h-[2px] bg-gradient-to-r from-transparent via-slate-300 to-slate-400"></span>
+                    <div className="relative flex items-center justify-center gap-6 text-slate-500 font-bold tracking-[0.4em] uppercase text-sm md:text-xl">
+                        <span className="w-12 md:w-32 h-[3px] bg-gradient-to-r from-transparent via-slate-300 to-slate-400"></span>
                         Al-Abbas General Store
-                        <span className="w-8 md:w-20 h-[2px] bg-gradient-to-l from-transparent via-slate-300 to-slate-400"></span>
+                        <span className="w-12 md:w-32 h-[3px] bg-gradient-to-l from-transparent via-slate-300 to-slate-400"></span>
                     </div>
 
                     {/* Bottom pill */}
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-32 h-1.5 bg-gradient-to-r from-transparent via-emerald-200 to-transparent rounded-t-full"></div>
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-2 bg-gradient-to-r from-transparent via-emerald-200 to-transparent rounded-t-full"></div>
                 </div>
             </div>
 
