@@ -35,6 +35,7 @@ export function Sidebar() {
     const { confirm } = useConfirm();
     const { success } = useToast();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
@@ -95,9 +96,23 @@ export function Sidebar() {
                         <p className="text-xs text-slate-500 mt-1">Shahjamal</p>
                     </Link>
                     {user && (
-                        <div className="mt-3 p-2 bg-slate-800/50 rounded-lg">
-                            <p className="text-[10px] text-slate-500 uppercase tracking-wider">Logged in as</p>
-                            <p className="text-sm text-emerald-400 font-medium">{user.name}</p>
+                        <div className="mt-6 flex items-center gap-4 bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                            <div
+                                className="relative w-12 h-12 rounded-full overflow-hidden border-2 border-emerald-500 cursor-pointer hover:scale-105 transition-transform shadow-lg shadow-emerald-500/20"
+                                onClick={() => user.image && setIsLightboxOpen(true)}
+                            >
+                                {user.image ? (
+                                    <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <div className="w-full h-full bg-emerald-600 flex items-center justify-center text-white font-bold text-lg">
+                                        {user.name.charAt(0)}
+                                    </div>
+                                )}
+                            </div>
+                            <div>
+                                <p className="text-[10px] text-slate-500 uppercase tracking-wider font-bold">Logged in as</p>
+                                <p className="text-sm text-white font-bold tracking-wide">{user.name}</p>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -116,7 +131,7 @@ export function Sidebar() {
                     )}
                 </div>
 
-                <nav className="flex-1 px-4 py-8 space-y-8 overflow-y-auto">
+                <nav className="flex-1 px-4 py-8 space-y-10 overflow-y-auto">
                     {menuItems.map((item) => {
                         const Icon = item.icon;
                         const isActive = pathname === item.href;
@@ -177,6 +192,31 @@ export function Sidebar() {
                     </div>
                 </div>
             </aside>
+
+            {/* Lightbox for Profile Picture */}
+            {isLightboxOpen && user?.image && (
+                <div
+                    className="fixed inset-0 bg-black/95 z-[60] flex items-center justify-center p-4 animate-fade-in backdrop-blur-sm"
+                    onClick={() => setIsLightboxOpen(false)}
+                >
+                    <div className="relative max-w-4xl w-full flex flex-col items-center animate-scale-in">
+                        <button
+                            className="absolute -top-12 right-0 text-white/70 hover:text-white transition-colors"
+                            onClick={() => setIsLightboxOpen(false)}
+                        >
+                            <X size={40} />
+                        </button>
+                        <img
+                            src={user.image}
+                            alt={user.name}
+                            className="w-full h-auto max-h-[80vh] object-contain rounded-2xl shadow-2xl border-4 border-slate-900"
+                            onClick={(e) => e.stopPropagation()}
+                        />
+                        <h3 className="mt-6 text-2xl text-white font-bold tracking-widest uppercase">{user.name}</h3>
+                        <p className="text-emerald-400 font-medium">Owner Profile</p>
+                    </div>
+                </div>
+            )}
         </>
     );
 }
