@@ -129,15 +129,20 @@ export default function LoginPage() {
 
                     {/* Footer */}
                     <div className="h-28" />
-                    <div className="text-center animate-fade-in" style={{ animationDelay: '0.4s' }}>
-                        <div className="flex items-center justify-center gap-3 text-gray-400 mb-4">
-                            <div className="h-px bg-gray-300 w-20"></div>
-                            <span className="text-xs uppercase tracking-widest font-bold">Powered by</span>
-                            <div className="h-px bg-gray-300 w-20"></div>
-                        </div>
-                        <div className="flex items-center justify-center gap-3">
-                            <div className="w-8 h-8 bg-gradient-to-tr from-emerald-500 to-cyan-500 rounded-lg flex items-center justify-center text-sm font-black italic text-white shadow-lg">M</div>
-                            <span className="text-lg font-black tracking-tight text-gray-800">MAIRAJ'S <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-cyan-600">TECH</span></span>
+                    {/* Floating Highlighted Footer */}
+                    <div className="fixed bottom-0 left-0 right-0 p-6 flex justify-center pointer-events-none animate-fade-in-up">
+                        <div className="bg-white/90 backdrop-blur-xl border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.12)] rounded-2xl py-3 px-8 flex items-center gap-4 pointer-events-auto hover:-translate-y-1 transition-transform duration-300">
+                            <span className="text-sm font-semibold text-slate-600">
+                                © 2026 Al-Abbas General Store. All rights reserved.
+                            </span>
+                            <div className="w-1.5 h-1.5 rounded-full bg-slate-300"></div>
+                            <div className="flex items-center gap-2">
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Powered by</span>
+                                <div className="flex items-center gap-1.5">
+                                    <div className="w-6 h-6 bg-gradient-to-tr from-emerald-600 to-cyan-600 rounded flex items-center justify-center text-[10px] font-black italic text-white shadow-md">M</div>
+                                    <span className="text-sm font-black tracking-tight text-slate-800">MAIRAJ'S <span className="text-emerald-600">TECH</span></span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
