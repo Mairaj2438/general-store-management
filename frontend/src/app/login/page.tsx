@@ -107,7 +107,7 @@ export default function LoginPage() {
                         </div>
 
                         {/* Spacer */}
-                        <div className="h-[18rem]" />
+                        <div className="h-28" />
 
                         {/* Submit Button */}
                         <button
@@ -128,7 +128,7 @@ export default function LoginPage() {
                     </form>
 
                     {/* Footer */}
-                    <div className="h-[18rem]" />
+                    <div className="h-28" />
                     <div className="text-center animate-fade-in" style={{ animationDelay: '0.4s' }}>
                         <div className="flex items-center justify-center gap-3 text-gray-400 mb-4">
                             <div className="h-px bg-gray-300 w-20"></div>
